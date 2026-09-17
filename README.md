@@ -4,6 +4,9 @@
 > 결제 · ERP · SOAP 등 외부 시스템 연동과 서버 운영까지 직접 수행했으며,
 > 현재는 **Java/Spring Boot · JPA** 와 **Python 기반 LLM · AI Agent** 로 스택을 확장해
 > 웹 서비스 전반을 이해하는 백엔드 개발자로 성장하고 있습니다.
+>
+> 최근 진행한 4인 AI 팀 프로젝트에서는 **PL(팀장)** 으로 전체 아키텍처와 DB 스키마를 설계하고,
+> 팀원별 도메인 분담과 기술 지원까지 담당했습니다.
 
 📧 dndnjs6918@naver.com ・ 📱 010-9699-6918 ・ 📍 서울 관악구
 
@@ -33,46 +36,111 @@
 | **Frontend** | React, TypeScript |
 | **DevOps** | Docker, GitHub Actions (CI/CD), 가비아 g클라우드 (VPC · 서버 · 스토리지) |
 | **AI / LLM** | Python, OpenAI API, LangChain, LangGraph, RAG, Vector DB, Tool Calling (AI Agent), Prompt Engineering, Streamlit |
-| **Vision / Edge AI** | PyTorch, YOLOv5, NVIDIA Jetson Nano |
-| **모델 운영** | H200 GPU 서버에 모델 직접 설치 · 설정 후 Ollama / Hugging Face 기반 서빙 |
+| **Vision / Edge AI** | PyTorch, YOLOv5 · YOLOv8n, ByteTrack, OpenCV, NVIDIA Jetson Nano |
+| **모델 운영** | H200 GPU 서버에 모델 직접 설치 · 설정 후 Ollama / Hugging Face 기반 서빙 (Gemma) |
+| **설계 · 리딩** | 요구사항 정의, ERD 설계, 도메인 분리, 팀 역할 분담, Agile 기반 일정 관리 |
 
 ---
 
-## 🤖 AI 팀 프로젝트 — 무인매장 CCTV 실시간 AI 관제 시스템
+## 🤖 AI 팀 프로젝트 — 알리미오(allimio) : 무인매장 CCTV 실시간 AI 관제 시스템
 
-무인 매장의 CCTV 영상을 AI가 실시간 분석해 **폭행 · 기물 파손 · 쓰러짐(응급) · 무단 침입 · 장시간 배회** 등
-이상 행동을 감지하고, 관리자에게 즉시 알리는 관제 서비스입니다. **4인 팀 프로젝트**로 진행했습니다.
+> **역할: PL(팀장) · 아키텍처 및 DB 설계 총괄 · 매장/CCTV 관제 도메인 · 엣지 AI 단독 개발**
+> 4인 팀 · 2026
+
+무인 매장의 CCTV 영상을 AI가 실시간 분석해 **무단침입 · 쓰러짐(응급) · 폭행 · 기물파손 · 장시간체류**
+5종의 이상행동을 감지하고, 관리자에게 즉시 알리는 관제 서비스입니다.
 
 ### 저장소
 
-| 저장소 | 구성 | 인원 |
+| 저장소 | 구성 | 참여 |
 |---|---|---|
-| [team2_react_v1](https://github.com/eong98/team2_react_v1) | 프론트엔드 (React · TypeScript) | 4명 |
-| [team2_jpa_v1](https://github.com/eong98/team2_jpa_v1) | 백엔드 (Spring Boot · JPA · Oracle) | 4명 |
-| [team2_fastapi_v1](https://github.com/eong98/team2_fastapi_v1) | AI 서버 (FastAPI · LLM 연동) | 4명 |
-| [team2_jetson](https://github.com/eong98/team2_jetson) | 엣지 디바이스 추론 (Jetson Nano · YOLOv5) | **1명 (단독)** |
+| [team2_react_v1](https://github.com/eong98/team2_react_v1) | 프론트엔드 (React · TypeScript · Vite) | 4명 |
+| [team2_jpa_v1](https://github.com/eong98/team2_jpa_v1) | 비즈니스 백엔드 (Spring Boot · JPA · Oracle) | 4명 |
+| [team2_fastapi_v1](https://github.com/eong98/team2_fastapi_v1) | AI 서버 (FastAPI · Python · LLM 연동) | 4명 |
+| [team2_jetson](https://github.com/eong98/team2_jetson) | 엣지 디바이스 추론 (Jetson Nano · YOLO) | **단독 개발** |
 
-### 담당 역할 — 매장 · CCTV 관제 도메인 + 엣지 AI
+---
 
-- **도메인 설계**
-  매장(SHOP) · CCTV · 이상 이벤트 이력 테이블 설계 및 ERD 작성,
-  매장별 구독권 / 구독 내역(`shop_product`, `shop_order`) 구조 설계
-- **관제 대시보드 구현**
-  정상(그린) · 주의(앰버) · 위험(레드) 3단계 상태 체계,
-  메인 CCTV + 썸네일 구조의 홈캠 스타일 UI,
-  데스크톱(사이드바) / 모바일(하단 탭바) 반응형 대응
-- **실시간 알림**
-  이상 상황 감지 시 WebSocket 기반 관리자 실시간 알림, 이벤트 시점 영상 · 스냅샷 저장
-- **오탐 저감**
-  영상 판정 결과만 사용하지 않고 출입 기록 · 센서 데이터를 함께 분석해 오탐지를 줄이는 판정 로직 설계
-- **AI 모델 / 엣지 추론 (단독 담당)**
-  - **YOLOv5** 기반 이상 행동 감지 모델 적용
-  - **NVIDIA Jetson Nano** 에 모델을 올려 엣지 단에서 실시간 추론 → 서버 부하 및 영상 전송량 절감
-  - **H200 GPU 서버**에 모델을 직접 설치 · 설정하고 **Ollama / Hugging Face** 기반으로 서빙 환경 구성
-  - **OpenAI API** 를 활용한 이벤트 요약 · 고객지원 기능 연동
+### 👤 PL(팀장) — 설계 총괄 및 팀 리딩
+
+프로젝트 기획부터 아키텍처 확정, 팀원 역할 분담, 기술 지원까지 팀 리딩 전반을 담당했습니다.
+
+**1. 서비스 기획 및 주제 선정**
+- 무인점포 절도 신고 건수 추이(2021년 3,514건 → 2025년 11,015건, 경찰청 집계), 한국소비자원 실태조사, 실제 사건 사례를 조사해 **문제 정의와 서비스 필요성을 근거 기반으로 정리**
+- 세콤 · 에스원 등 기존 물리보안 서비스와 **기능 · 요금 구조를 비교 분석**하여, "기존 CCTV만으로 별도 장비 없이 상시 AI 판단" 이라는 서비스 차별점과 **CCTV 대수 구간별 구독제** 과금 모델을 설계
+
+**2. 전체 아키텍처 설계**
+- 서비스를 **프론트엔드 / 비즈니스 백엔드 / AI 백엔드 / 엣지 디바이스** 4계층으로 분리하고 계층 간 통신 방식(REST API · WebSocket)을 정의
+- 비즈니스 로직(Spring Boot)과 AI 추론(FastAPI)을 **별도 서버로 분리** — AI 연산 부하가 서비스 응답에 영향을 주지 않도록 하고, 모델 교체 시 비즈니스 코드를 수정하지 않도록 구성
+- 저장소를 계층별로 4개로 나누어, 팀원이 서로의 빌드에 영향을 주지 않고 병렬 개발할 수 있는 구조 확립
+
+**3. 통합 DB 스키마 설계 (전 도메인 ERD 작성)**
+- 팀원 각자가 테이블을 따로 만들면 개발 중간에 스키마가 충돌한다고 판단해, **개발 착수 전 전 도메인 테이블을 하나의 스키마로 통합 설계**
+- `SHOP` · `MEMBER` · `CCTV` · `CCTV_ISSUE` · `CCTV_VISITOR` · `SHOP_ORDER` · `SHOP_PRODUCT` · `NOTIFICATION` 등 전체 테이블과 관계를 ERD로 확정한 뒤 개발 시작
+- **메뉴–페이지–DB 매핑표**와 **테이블 정의서**를 문서로 작성해 팀원 전원이 같은 기준으로 개발하도록 함
+- 결과적으로 개발 도중 스키마 변경으로 인한 재작업 없이 통합 단계를 진행
+
+**4. 팀 역할 분담 및 기술 지원**
+
+| 팀원 | 담당 도메인 |
+|---|---|
+| **장우원 (PL)** | 매장 · CCTV 등록/관리, 실시간 관제, CCTV 이슈 처리, 이상행동 유형코드 이벤트 관리, 매장 QR코드 생성 |
+| 고찬영 | 회원가입 · 정보수정, SMS/메일 인증, 로그인 이력, 아이디/비밀번호 찾기, 고객의 소리 |
+| 김승연 | 공지사항 · 1:1 문의(FAQ) 게시판, 첨부파일 관리, 챗봇 상담 및 대화 로그, 구독권 · 결제 내역 |
+| 이은혜 | SMS 이미지 생성, SMS · 메일 발송/이력, 웹메일함 · 번역, AI 도면 생성, 만족도 조사 |
+
+- 도메인별로 **기능 · 담당 테이블 · 페이지 범위를 문서로 확정**한 뒤 분담하여, 업무 경계에서 생기는 누락을 사전에 차단
+- 팀원들이 처음 다루는 **Spring Boot · JPA 연관관계 매핑, REST API 설계, Git 브랜치 전략** 등에 대해 수시로 기술 지원 진행
+- Agile 기반으로 일정을 관리하고, GitHub Actions CI/CD와 Docker 배포까지 통합 담당
+
+---
+
+### 🎥 AI 파이프라인 설계 — 엣지 + 서버 2단계 판단 구조
+
+**해결할 문제** — 모든 CCTV 영상을 서버로 보내 분석하면 네트워크 비용과 GPU 부하가 매장 수에 비례해 증가합니다.
+반대로 엣지 디바이스에서만 판단하면 Jetson Nano의 연산 성능상 정확도가 떨어집니다.
+
+**설계한 구조** — 판단 난이도에 따라 처리 위치를 나눴습니다.
+
+```
+[ CCTV ] ─RTSP/USB─> [ Jetson Nano ]  ──명확한 이벤트──>  [ Spring Boot ]  ──WebSocket──> [ 관제 대시보드 ]
+                      YOLO + ByteTrack                      CCTV_ISSUE 저장              (React)
+                      track_id 부여                              ▲
+                            │                                    │
+                            └──애매한 이벤트(프레임 이미지)──> [ FastAPI + H200 ] ──최종 확정──┘
+                                                              비전 모델 재판정
+```
+
+| 단계 | 처리 위치 | 내용 |
+|---|---|---|
+| **① 탐지 · 추적** | Jetson Nano | YOLO + **ByteTrack** 으로 사람을 탐지하고 `track_id` 를 부여해 입장 · 퇴장을 구분 |
+| **② 1차 판단 (확정)** | Jetson Nano | 입장/퇴장(`CCTV_VISITOR`), 영업시간 외 무단침입, 장시간체류처럼 **규칙으로 확정 가능한 이벤트는 엣지에서 유형코드까지 확정**해 서버로 전송 → 영상 전송량 · 서버 부하 대폭 절감 |
+| **③ 2차 판단 (재확인)** | H200 GPU 서버 | 쓰러짐 · 폭행 후보는 **해당 프레임 이미지만** 서버로 전송, 비전 모델이 실제 화면을 보고 최종 확정 → 오탐 저감 |
+| **④ 저장 · 알림** | Spring Boot | 확정된 이벤트를 `CCTV_ISSUE` 에 저장하고 **WebSocket** 으로 관리자에게 실시간 알림 |
+
+> 💡 전체 영상을 서버로 보내지 않고 **"확정 가능한 건 엣지에서, 애매한 것만 이미지로 서버에"** 로 나눈 것이 이 설계의 핵심입니다.
+
+### 🛠️ 직접 구현한 부분
+
+**엣지 AI (단독 개발)**
+- **YOLOv8n / YOLOv5** 기반 사람 탐지 모델 적용, **ByteTrack** 으로 다중 객체 추적 및 `track_id` 관리
+- **NVIDIA Jetson Nano** 환경 세팅 및 모델 경량화, OpenCV 기반 RTSP/USB 카메라 영상 처리
+- 체류 시간 · 영업시간 · 출입 기록을 조합한 이상행동 판정 로직 구현
+
+**모델 서빙**
+- **H200 GPU 서버**에 모델을 직접 설치 · 설정하고 **Ollama / Hugging Face(Gemma)** 기반 서빙 환경 구성
+- **FastAPI** 로 AI 추론 API 구성, **OpenAI API** 를 활용한 이벤트 요약 기능 연동
+
+**관제 도메인 (백엔드 + 프론트)**
+- 매장 · CCTV 등록/관리, CCTV 이슈 처리, 이상행동 유형코드 이벤트 관리, 매장 QR코드 생성 기능 개발
+- 관제 대시보드 UI 구현 — 정상(그린) · 주의(앰버) · 위험(레드) 3단계 상태 체계,
+  메인 CCTV + 썸네일 구조의 홈캠 스타일 화면, 데스크톱(사이드바) / 모바일(하단 탭바) 반응형 대응
+- 매장별 구독권 · 구독 내역(`SHOP_PRODUCT`, `SHOP_ORDER`) 구조 설계 및 구현
 
 ### 기술 스택
-`Spring Boot` `JPA` `Oracle` `React` `TypeScript` `FastAPI` `Python` `YOLOv5` `PyTorch` `Jetson Nano` `OpenAI API` `Ollama` `Hugging Face` `WebSocket` `Docker` `GitHub Actions`
+`Spring Boot` `Spring Data JPA` `Oracle` `React` `TypeScript` `Vite` `Axios` `FastAPI` `Python` `oracledb`
+`YOLOv8n/v5` `ByteTrack` `OpenCV` `PyTorch` `Jetson Nano` `Ollama` `LangChain` `Gemma(H200)` `OpenAI API`
+`WebSocket` `REST API` `Docker` `GitHub Actions`
 
 ---
 
