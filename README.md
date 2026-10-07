@@ -4,8 +4,8 @@
 > 웹에이전시에서 3년간 결제 · ERP · SOAP 연동과 서버 운영까지 직접 수행했고,
 > 그 경험 위에 새로운 스택을 얹어 **AI를 서비스의 기능으로 설계하는 백엔드**로 확장하고 있습니다.
 >
-> 최근 4인 AI 팀 프로젝트에서는 **PL(팀장)** 으로 전체 아키텍처와 DB 스키마를 설계하고,
-> 엣지 AI(Jetson Nano · YOLOv5) 파트를 단독 개발했습니다.
+> 4인 AI 팀 프로젝트에서 **PL(팀장)** 으로 아키텍처와 DB 스키마를 설계했고,
+> 직접 기획 · 개발 · 배포해 **실제 운영 중인 서비스(유형숲)** 도 있습니다.
 
 📧 dndnjs6918@naver.com ・ 📱 010-9699-6918 ・ 📍 서울 관악구
 
@@ -15,7 +15,9 @@
 
 | 구분 | 프로젝트 | 핵심 기술 | 역할 |
 |---|---|---|---|
-| **AI 팀 프로젝트** | [알리미오 — 무인매장 CCTV 실시간 AI 관제](#-ai-팀-프로젝트--알리미오allimio--무인매장-cctv-실시간-ai-관제-시스템) | Spring Boot · FastAPI · YOLOv5 · Jetson Nano · Ollama | **PL(팀장)** · 설계 총괄 · 엣지 AI 단독 |
+| **AI 팀 프로젝트** | [알리미오](#-ai-팀-프로젝트--알리미오allimio--무인매장-cctv-실시간-ai-관제-시스템) — 무인매장 CCTV 실시간 AI 관제 | Spring Boot · FastAPI · YOLOv5 · Jetson · LangGraph · RAG | **PL(팀장)** · 설계 총괄 · 엣지 AI 단독 |
+| **운영 중인 개인 서비스** | [유형숲](#-운영-중인-개인-서비스--유형숲-foresttypecokr) — 유형 · 궁합 · 퀴즈 테스트 플랫폼 | Spring Boot 3.5 · React 19 · Oracle · Nginx · Docker · GitHub Actions | **1인 기획 · 개발 · 배포 · 운영** |
+| **개인 프로젝트** | [CLIMB:ON](#-개인-프로젝트--climbon--클라이밍-암장-검색--커뮤니티--스토어) — 클라이밍 암장 검색 · 커뮤니티 · 스토어 | Spring Boot · React · FastAPI · LangChain · JWT · 토스페이먼츠 | 1인 개발 (3-티어 전체) |
 | **실무 — 커머스** | [SEKMALL](#-sekmall--b2b-쇼핑몰-구축) (B2B) / [더푸짐](#-더푸짐--b2c-쇼핑몰-구축) (B2C) | PHP · MySQL · 이카운트 ERP · 카카오 알림톡 | 메인 단독 |
 | **실무 — 교육** | [스펙트럼KU](#-스펙트럼ku--교육-플랫폼--국내외-결제) / [명지전문대 KBO 야구심판](#-명지전문대-kbo-야구심판-양성과정--교육-플랫폼) | PHP · 이니시스 · PayPal | 메인 |
 | **실무 — 대규모 회원** | [한국심리학회](#-한국심리학회--회원--회비--결제-시스템) (회원 5~6만) | PHP · MySQL · 결제 API | 서브 |
@@ -23,7 +25,7 @@
 | **운영** | [유지보수 150여 개사 / 300여 개 도메인](#-유지보수-담당-사이트) | Linux · Apache · PHP 5.x~8.3 | 담당 |
 
 > ⚠️ 실무 프로젝트는 **고객사 자산이라 소스를 공개할 수 없어**, 담당 업무와 설계 의도 중심으로 정리했습니다.
-> 소스가 공개된 프로젝트는 아래 **AI 팀 프로젝트** 섹션의 저장소 링크를 참고해 주세요.
+> 유형숲은 운영 중인 서비스라 저장소를 비공개로 두고 있으며, 팀 프로젝트와 CLIMB:ON은 저장소 링크에서 코드를 확인할 수 있습니다.
 
 ---
 
@@ -33,12 +35,12 @@
 
 | 구분 | 내용 |
 |---|---|
-| **Backend** | Java, Spring Boot, Spring Data JPA, Spring Security, Oracle, FastAPI |
-| **Frontend** | React, TypeScript, Vite |
-| **AI / LLM** | Python, OpenAI API, LangChain, Ollama, Hugging Face, Prompt Engineering |
-| **Vision / Edge AI** | PyTorch, YOLOv5, ByteTrack, OpenCV, NVIDIA Jetson Nano |
-| **모델 운영** | H200 GPU 서버에 모델 직접 설치 · 설정 후 Ollama / Hugging Face 기반 서빙 (Gemma) |
-| **DevOps** | Docker, GitHub Actions (CI/CD), 가비아 g클라우드 (VPC · 서버 · 스토리지) |
+| **Backend** | Java 17 · 21, Spring Boot 3.5, Spring Data JPA, Spring Security, JWT, Redis, Oracle, FastAPI |
+| **Frontend** | React 19, TypeScript, Vite, Zustand, Axios |
+| **AI / LLM** | Python, OpenAI API, Ollama, LangChain, LangGraph, RAG(ChromaDB), Prompt Engineering |
+| **Vision / Edge AI** | YOLOv5, OpenCV, PyTorch, NVIDIA Jetson Nano, 객체 추적기 직접 구현 |
+| **모델 운영** | H200 GPU 서버에 모델 직접 설치 · 설정 후 서빙, LLM 제공자 전환 구조(Ollama ↔ OpenAI) |
+| **DevOps** | Docker Compose, Nginx(HTTPS), GitHub Actions(CI/CD), 가비아 클라우드(VPC · 서버 · 스토리지) |
 | **설계 · 리딩** | 요구사항 정의, ERD 설계, 도메인 분리, 팀 역할 분담, Agile 기반 일정 관리 |
 
 ### 실무 기반 — 웹 서비스 개발 · 운영 3년
@@ -59,16 +61,16 @@
 > **역할: PL(팀장) · 아키텍처 및 DB 설계 총괄 · 매장/CCTV 관제 도메인 · 엣지 AI 단독 개발**
 > 4인 팀 · 2026
 
-무인 매장의 CCTV 영상을 AI가 실시간 분석해 **무단침입 · 쓰러짐(응급) · 폭행 · 기물파손 · 장시간체류**
-5종의 이상행동을 감지하고, 관리자에게 즉시 알리는 관제 서비스입니다.
+무인 매장의 CCTV 영상을 AI가 실시간 분석해 **폭행 · 기물파손 · 쓰러짐(응급) · 무단침입 · 장시간체류 · 화재**
+6종의 이상 상황을 감지하고, 관리자에게 즉시 알리는 관제 서비스입니다.
 
 ### 저장소
 
 | 저장소 | 구성 | 참여 |
 |---|---|---|
-| [team2_react_v1](https://github.com/eong98/team2_react_v1) | 프론트엔드 (React · TypeScript · Vite) | 4명 |
-| [team2_jpa_v1](https://github.com/eong98/team2_jpa_v1) | 비즈니스 백엔드 (Spring Boot · JPA · Oracle) | 4명 |
-| [team2_fastapi_v1](https://github.com/eong98/team2_fastapi_v1) | AI 서버 (FastAPI · Python · LLM 연동) | 4명 |
+| [team2_react_v1](https://github.com/eong98/team2_react_v1) | 프론트엔드 (React 19 · TypeScript · Vite · Zustand) | 4명 |
+| [team2_jpa_v1](https://github.com/eong98/team2_jpa_v1) | 비즈니스 백엔드 (Spring Boot · JPA · Oracle · JWT · Redis) | 4명 |
+| [team2_fastapi_v1](https://github.com/eong98/team2_fastapi_v1) | AI 서버 (FastAPI · LangChain · LangGraph · ChromaDB) | 4명 |
 | [team2_jetson](https://github.com/eong98/team2_jetson) | 엣지 디바이스 추론 (Jetson Nano · YOLOv5) | **단독 개발** |
 
 ---
@@ -96,14 +98,14 @@
 
 | 팀원 | 담당 도메인 |
 |---|---|
-| **장우원 (PL)** | 매장 · CCTV 등록/관리, CCTV 실시간 관제, CCTV 이슈 처리, 이상행동 유형코드 이벤트 관리 |
-| 고찬영 | 회원가입 · 정보수정, SMS/메일 인증, 로그인 이력, 아이디/비밀번호 찾기, 고객의 소리 |
+| **장우원 (PL)** | 매장 · CCTV 등록/관리, CCTV 실시간 관제, CCTV 이슈 · 방문객, 이상행동 유형코드, 매장 캘린더, 관리자/매장 메뉴 관리, 점주 대시보드 통계, Jetson 워커, CCTV 이슈 AI 검토 |
+| 고찬영 | 회원가입 · 정보수정, SMS/메일 인증, 로그인(쿠키 JWT + Redis), 로그인 이력, 아이디/비밀번호 찾기, 고객의 소리 |
 | 김승연 | 공지사항 · 1:1 문의(FAQ) 게시판, 첨부파일 관리, 챗봇 상담 및 대화 로그, 구독권 · 결제 내역 |
 | 이은혜 | SMS 이미지 생성, SMS · 메일 발송/이력, 웹메일함 · 번역, AI 도면 생성, 만족도 조사 |
 
 - 도메인별로 **기능 · 담당 테이블 · 페이지 범위를 문서로 확정**한 뒤 분담하여, 업무 경계에서 생기는 누락을 사전에 차단
 - 팀원들이 처음 다루는 **Spring Boot · JPA 연관관계 매핑, REST API 설계, Git 브랜치 전략** 등에 대해 수시로 기술 지원 진행
-- Agile 기반으로 일정을 관리하고, GitHub Actions CI/CD와 Docker 배포까지 통합 담당
+- Agile 기반으로 일정을 관리하고 통합과 배포까지 담당
 
 ---
 
@@ -116,18 +118,18 @@
 
 ```
 [ CCTV ] ─RTSP/USB─> [ Jetson Nano ]  ──명확한 이벤트──>  [ Spring Boot ]  ──WebSocket──> [ 관제 대시보드 ]
-                     YOLOv5 + ByteTrack                    CCTV_ISSUE 저장               (React)
+                     YOLOv5 + 추적기                       CCTV_ISSUE 저장               (React)
                         track_id 부여                            ▲
                             │                                    │
                             └──애매한 이벤트(프레임 이미지)──> [ FastAPI + H200 ] ──최종 확정──┘
-                                                               비전 모델 재판정
+                                                               AI 재검토
 ```
 
 | 단계 | 처리 위치 | 내용 |
 |---|---|---|
-| **① 탐지 · 추적** | Jetson Nano | YOLOv5 + **ByteTrack** 으로 사람을 탐지하고 `track_id` 를 부여해 입장 · 퇴장을 구분 |
+| **① 탐지 · 추적** | Jetson Nano | YOLOv5로 사람을 탐지하고, **직접 구현한 추적기**로 `track_id` 를 부여해 입장 · 퇴장을 구분 |
 | **② 1차 판단 (확정)** | Jetson Nano | 입장/퇴장(`CCTV_VISITOR`), 영업시간 외 무단침입, 장시간체류처럼 **규칙으로 확정 가능한 이벤트는 엣지에서 유형코드까지 확정**해 서버로 전송 → 영상 전송량 · 서버 부하 대폭 절감 |
-| **③ 2차 판단 (재확인)** | H200 GPU 서버 | 쓰러짐 · 폭행 후보는 **해당 프레임 이미지만** 서버로 전송, 비전 모델이 실제 화면을 보고 최종 확정 → 오탐 저감 |
+| **③ 2차 판단 (재확인)** | H200 GPU 서버 | 쓰러짐 · 폭행 후보는 **해당 프레임 이미지만** 서버로 전송, AI가 실제 화면을 보고 최종 확정 → 오탐 저감 |
 | **④ 저장 · 알림** | Spring Boot | 확정된 이벤트를 `CCTV_ISSUE` 에 저장하고 **WebSocket** 으로 관리자에게 실시간 알림 |
 
 > 💡 전체 영상을 서버로 보내지 않고 **"확정 가능한 건 엣지에서, 애매한 것만 이미지로 서버에"** 로 나눈 것이 이 설계의 핵심입니다.
@@ -135,33 +137,155 @@
 **모델 선정 — 왜 YOLOv5 인가**
 
 Jetson Nano는 연산 성능과 메모리가 제한적이라, 모델 크기가 곧 실시간 처리 가능 여부를 결정합니다.
-상위 버전 대비 **YOLOv5가 더 가볍고 Jetson 환경에서의 레퍼런스와 배포 자료가 풍부**했으며,
+상위 버전 대비 **YOLOv5(s 모델)가 더 가볍고 Jetson 환경에서의 레퍼런스와 배포 자료가 풍부**했으며,
 이 프로젝트에서 필요한 것은 세밀한 분류가 아니라 **사람 탐지와 추적** 이었기 때문에
 YOLOv5로도 목표 정확도를 충분히 확보할 수 있다고 판단해 채택했습니다.
 정밀 판정이 필요한 쓰러짐 · 폭행은 어차피 서버 단 2차 판정으로 넘기는 구조이므로,
 엣지 모델은 **가볍고 안정적으로 계속 도는 것**이 더 중요하다고 보았습니다.
 
+**추적기를 직접 구현한 이유**
+
+같은 이유로 추적기도 외부 라이브러리 대신 **IOU 매칭 + 속도 예측 + 짧은 미탐지 허용** 만 갖춘 가벼운 추적기를 직접 작성했습니다.
+무인 매장은 동시에 화면에 잡히는 사람 수가 적어, 무거운 추적 알고리즘보다 Jetson에서 프레임을 놓치지 않는 쪽이 판정 정확도에 더 중요했습니다.
+
 ### 🛠️ 직접 구현한 부분
 
 **엣지 AI (단독 개발)**
-- **YOLOv5** 기반 사람 탐지 모델 적용, **ByteTrack** 으로 다중 객체 추적 및 `track_id` 관리
-- **NVIDIA Jetson Nano** 환경 세팅 및 모델 경량화, OpenCV 기반 RTSP/USB 카메라 영상 처리
-- 체류 시간 · 영업시간 · 출입 기록을 조합한 이상행동 판정 로직 구현
+- **YOLOv5s** 기반 사람 탐지, 직접 구현한 추적기로 다중 객체 추적 및 `track_id` 관리
+- **NVIDIA Jetson Nano** 환경 세팅, OpenCV 기반 영상 처리
+- 폭행 · 쓰러짐 · 무단침입 · 장시간체류는 추적 결과 기반 규칙으로, 기물파손 · 화재는 장면 기반 규칙으로 판정
+- 방문객 입장/퇴장 집계, 감지 결과를 AI 서버 API로 전송
 
-**모델 서빙**
-- **H200 GPU 서버**에 모델을 직접 설치 · 설정하고 **Ollama / Hugging Face(Gemma)** 기반 서빙 환경 구성
-- **FastAPI** 로 AI 추론 API 구성, **OpenAI API** 를 활용한 이벤트 요약 기능 연동
+**AI 서버 · 모델 서빙**
+- **H200 GPU 서버**에 모델을 직접 설치 · 설정하고 서빙 환경 구성
+- **FastAPI** 로 이슈 접수 API 구성, CCTV 이슈를 AI가 다시 검토하는 **AI 검토(Agent)** 기능 개발
 
 **관제 도메인 (백엔드 + 프론트)**
-- 매장 · CCTV 등록/관리, CCTV 이슈 처리, 이상행동 유형코드 이벤트 관리 기능 개발
-- 관제 대시보드 UI 구현 — 정상(그린) · 주의(앰버) · 위험(레드) 3단계 상태 체계,
-  메인 CCTV + 썸네일 구조의 홈캠 스타일 화면, 데스크톱(사이드바) / 모바일(하단 탭바) 반응형 대응
-- 매장별 구독권 · 구독 내역(`SHOP_PRODUCT`, `SHOP_ORDER`) 구조 설계 및 구현
+- 매장 · CCTV 등록/관리, CCTV 이슈 · 방문객 목록, 이상행동 유형코드 관리
+- 매장 캘린더(FullCalendar), 관리자/매장 메뉴 관리(드래그앤드롭 정렬, 사이드바를 DB 메뉴로 동적 구성)
+- **점주 대시보드** — 일별 · 시간대별 방문객, 일별 이슈, 유형별 이슈 비율 차트.
+  회원번호를 요청 파라미터가 아닌 쿠키 JWT에서 추출해 **다른 매장 데이터 조회(IDOR)를 차단**
+- 관제 대시보드 UI — 정상(그린) · 주의(앰버) · 위험(레드) 3단계 상태 체계, 데스크톱/모바일 반응형
 
 ### 기술 스택
-`Spring Boot` `Spring Data JPA` `Oracle` `React` `TypeScript` `Vite` `Axios` `FastAPI` `Python` `oracledb`
-`YOLOv5` `ByteTrack` `OpenCV` `PyTorch` `Jetson Nano` `Ollama` `LangChain` `Gemma(H200)` `OpenAI API`
-`WebSocket` `REST API` `Docker` `GitHub Actions`
+`Spring Boot` `Spring Data JPA` `Oracle` `JWT` `Redis` `React 19` `TypeScript` `Vite` `Zustand` `FastAPI` `Python`
+`YOLOv5` `OpenCV` `PyTorch` `Jetson Nano` `Ollama` `LangChain` `LangGraph` `ChromaDB` `WebSocket` `Docker`
+
+---
+
+## 🌳 운영 중인 개인 서비스 — 유형숲 (foresttype.co.kr)
+
+> **[foresttype.co.kr](https://foresttype.co.kr) ・ 1인 기획 · 개발 · 배포 · 운영 ・ 2026 ・ 서비스 중**
+> 저장소는 운영 중인 서비스라 비공개입니다.
+
+유형 · 궁합 · 퀴즈 테스트를 1분 안에 하고 친구와 결과를 비교하는 테스트 플랫폼입니다.
+"수익이 나는 서비스를 직접 만들어 운영해 본다"를 목표로 도메인 구매부터 배포, 검색 등록, 홍보까지 혼자 진행했습니다.
+
+### 구조
+
+```
+[ 브라우저 ] → Nginx(443, HTTPS) → Spring Boot(jar 1개) → JPA → Oracle
+                                     └ React 빌드 결과를 static에 포함해 함께 배포
+```
+
+`Spring Boot 3.5` `Java 17` `Spring Data JPA` `Oracle` `React 19` `TypeScript` `Nginx` `Docker Compose` `GitHub Actions`
+
+### 핵심 설계 — "테스트 = 데이터"
+
+테스트를 추가할 때마다 코드를 짜면 운영 비용이 테스트 수에 비례해 늘어납니다.
+그래서 **테스트 하나를 JSON 정의 파일 하나로 표현**하고, 서버는 채점 방식 5가지만 알도록 설계했습니다.
+
+| 채점 타입 | 방식 |
+|---|---|
+| `AXIS` | 축별 점수 합의 부호 조합으로 결과 결정 (궁합 옵션 지원) |
+| `TALLY` | 선택지가 결과에 표를 주고 최다 득표 결과 선택 (가중치 지원) |
+| `SCORE` | 점수 합계를 구간으로 나눠 결과 결정 |
+| `TRIVIA` | 정답형 퀴즈. 제한 시간, 문제 은행 무작위 출제 옵션 |
+| `BALANCE` | 결과 없이 문항별 투표 비율 표시 |
+
+- **재배포 없는 콘텐츠 추가** — 관리자 화면에 JSON을 붙여넣고 검사 후 저장하면 바로 반영
+- **저장 전 검증** — 도달할 수 없는 결과, 점수 구간의 빈틈 같은 정의 오류를 검증기가 저장 단계에서 차단
+- **서버 재채점** — 점수표와 정답은 API로 내려보내지 않고, 제출된 답을 서버에서 다시 채점
+- **Java ↔ TypeScript 채점 로직 교차 검증** — 같은 규칙이 서버와 프론트 두 곳에 있어, 검증 도구로 7,200건을 대조해 결과 차이 0건 확인
+
+### 직접 구현한 기능
+
+- **콘텐츠** — 테스트 30여 종(연애 · 심리 · 취미 · 직장 · 퀴즈 등), 읽을거리 20여 편, 결과별 상세 설명과 관련 테스트 추천
+- **참여 · 공유** — 궁합 보기, 오늘의 퀴즈(연속 참여 기록), 점수 도전장, 친구 비교방, 카카오톡 공유, 결과별 OG 이미지와 인스타 스토리용 이미지를 서버에서 생성
+- **관리자** — 테스트 편집 · 숨김, 배너 관리, 방문 통계 대시보드(퍼널 시각화)
+- **통계 직접 수집** — 쿠키 없이 일별 해시로 방문을 집계하고 IP는 저장하지 않는 방식으로 구현
+- **보안** — IP별 요청 제한, CSP 등 보안 헤더, CSRF 방어, 로그인 실패 잠금, 관리자 세션은 HttpOnly 쿠키 + PBKDF2
+- **SEO** — robots · sitemap, 검색 엔진 등록, 초기 HTML에 정적 콘텐츠를 서버에서 렌더링
+
+### 배포 · 운영
+
+- **CI/CD** — 기능 브랜치 push → GitHub Actions 테스트 → main 병합 → 서버 배포 스크립트 자동 실행
+- **운영 대비** — 백업 스크립트와 서버 이전 절차 문서(환경 변수 · Nginx 설정 · Oracle Data Pump) 작성
+- **수익화 · 홍보** — 제휴 링크 적용, 광고 심사 대응(콘텐츠 보강 · 정책 페이지 정비), 인스타그램 릴스 제작 자동화(Python 영상 생성 스크립트)
+
+> 💡 실무에서 150여 개 사이트를 유지보수하며 배운 "운영 단계에서 비용이 되는 구조"를 처음부터 피하려고 한 프로젝트입니다.
+> 콘텐츠 추가에 개발이 필요 없게 만든 것, 배포와 백업을 자동화한 것이 그 결과입니다.
+
+---
+
+## 🧗 개인 프로젝트 — CLIMB:ON : 클라이밍 암장 검색 · 커뮤니티 · 스토어
+
+> **1인 개발 ・ Spring Boot + React + FastAPI 3-티어 전체 ・ 2026**
+
+클라이밍 암장을 난이도 · 지역 · 시설로 검색하고, 커뮤니티와 장비 스토어, AI 추천까지 제공하는 플랫폼입니다.
+팀 프로젝트에서 익힌 구조를 **혼자서 처음부터 끝까지** 다시 만들어 보며 인증 · 결제 · AI 연동을 직접 설계했습니다.
+
+### 저장소
+
+| 저장소 | 구성 |
+|---|---|
+| [climb_jpa_v1](https://github.com/eong98/climb_jpa_v1) | 백엔드 (Spring Boot 3.5 · Java 21 · JPA · Oracle · Spring Security + JWT) |
+| [climb_react_v1](https://github.com/eong98/climb_react_v1) | 프론트엔드 (React 19 · TypeScript · Vite · Zustand) |
+| [climb_fastapi_v1](https://github.com/eong98/climb_fastapi_v1) | AI 서버 (FastAPI · LangChain · Ollama / OpenAI) |
+
+### 구조
+
+```
+React ──REST/JWT──▶ Spring Boot ──JDBC──▶ Oracle (테이블 20개)
+                        │  ▲
+                        ▼  │  서버 대 서버
+                     FastAPI : LLM · LangChain
+```
+
+**React는 AI 서버를 직접 호출하지 않고 항상 Spring을 거칩니다.**
+- 인증 · 권한 검사를 Spring Security 한 곳에서만 처리
+- AI에 넘길 데이터(리뷰, 등반일지)를 DB에서 꺼내는 주체를 Spring으로 통일
+- AI 서버가 내려가도 Spring이 대체 응답을 만들어 화면이 깨지지 않음
+
+### 핵심 설계
+
+**1. 난이도 정규화** — 암장마다 V등급 · YDS · French · 색상 난이도를 제각각 써서 "내 수준에 맞는 암장"을 검색할 수 없는 문제를,
+네 가지 체계를 **0~100 점수 하나로 환산**해 범위 검색이 가능하도록 해결했습니다.
+표시값(문자)과 정렬값(숫자)을 분리 저장하고, 저장값은 항상 서버가 계산합니다.
+
+**2. LLM 역할 분리와 장애 격리**
+- 통계 계산은 Python 코드가, **해석과 코칭 문장만 LLM이** 담당 → 숫자를 지어내는 문제 방지
+- 모든 AI 기능에 **규칙 기반 대체 로직**을 두어 LLM이 없어도 정상 응답
+- LLM 제공자(Ollama ↔ OpenAI)를 환경 변수 하나로 전환
+
+**3. 인증** — 액세스 토큰 + 리프레시 토큰, 재발급 시 기존 토큰을 폐기하는 회전 방식(RTR).
+프론트는 axios 인터셉터로 401 발생 시 자동 재발급 후 원래 요청을 재시도합니다.
+
+**4. 데이터 설계**
+- 암장 검색은 `EXISTS` 서브쿼리 사용 (JOIN 시 중복 행으로 페이징 건수가 어긋나는 문제 방지)
+- 평점 · 리뷰 수는 집계 컬럼으로 반정규화하고 리뷰 변경 시 재집계
+- 주문 시점의 상품명 · 가격을 주문 상세에 복사 저장(스냅샷)해, 이후 상품이 바뀌어도 주문 내역이 유지
+
+### 주요 기능
+
+- **암장 검색** — 난이도 범위, 지역, 유형, 시설, 영업 중 필터 / 상세(난이도 구성, 영업시간, 리뷰, AI 리뷰 요약)
+- **AI** — 자연어 검색(문장을 검색 조건으로 구조화), Q&A 챗봇, 리뷰 요약 · 감성 분석, 등반일지 실력 분석 리포트, 암장 · 장비 추천
+- **커뮤니티** — 게시판 5종, 댓글/대댓글, 좋아요, 첨부
+- **스토어** — 상품 · 후기, 장바구니, 주문/취소(재고 연동), **토스페이먼츠 결제 승인(테스트 모드)** — 금액 검증과 중복 승인 방지 처리
+- **마이페이지** — 등반일지, 월별 추이 · 난이도별 완등 분포 그래프
+- **관리자** — 암장 · 회원 · 게시글 · 상품 · 주문 · 공지 관리
+
+`Spring Boot 3.5` `Java 21` `Spring Security` `JWT` `JPA` `Oracle` `React 19` `TypeScript` `FastAPI` `LangChain` `Ollama` `OpenAI API` `토스페이먼츠`
 
 ---
 
