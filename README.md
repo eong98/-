@@ -1,23 +1,47 @@
 # 장우원 | Backend Developer
 
-> LAMP 환경에서 3년간 웹 서비스 신규 구축과 운영을 담당해 온 개발자입니다.
-> 결제 · ERP · SOAP 등 외부 시스템 연동과 서버 운영까지 직접 수행했으며,
-> 현재는 **Java/Spring Boot · JPA** 와 **Python 기반 LLM · AI Agent** 로 스택을 확장해
-> 웹 서비스 전반을 이해하는 백엔드 개발자로 성장하고 있습니다.
+> **Java · Spring Boot · JPA** 백엔드와 **Python 기반 AI(LLM · Vision)** 를 함께 다루는 개발자입니다.
+> 웹에이전시에서 3년간 결제 · ERP · SOAP 연동과 서버 운영까지 직접 수행했고,
+> 그 경험 위에 새로운 스택을 얹어 **AI를 서비스의 기능으로 설계하는 백엔드**로 확장하고 있습니다.
 >
-> 최근 진행한 4인 AI 팀 프로젝트에서는 **PL(팀장)** 으로 전체 아키텍처와 DB 스키마를 설계하고,
-> 팀원별 도메인 분담과 기술 지원까지 담당했습니다.
+> 최근 4인 AI 팀 프로젝트에서는 **PL(팀장)** 으로 전체 아키텍처와 DB 스키마를 설계하고,
+> 엣지 AI(Jetson Nano · YOLOv5) 파트를 단독 개발했습니다.
 
 📧 dndnjs6918@naver.com ・ 📱 010-9699-6918 ・ 📍 서울 관악구
 
-> ⚠️ 실무 프로젝트 소스는 **고객사 자산으로 공개할 수 없어**, 담당 업무와 구현 내용 중심으로 정리했습니다.
-> 코드가 공개된 프로젝트는 아래 **AI 팀 프로젝트** 섹션의 저장소 링크를 참고해 주세요.
+---
+
+## 📌 한눈에 보기
+
+| 구분 | 프로젝트 | 핵심 기술 | 역할 |
+|---|---|---|---|
+| **AI 팀 프로젝트** | [알리미오 — 무인매장 CCTV 실시간 AI 관제](#-ai-팀-프로젝트--알리미오allimio--무인매장-cctv-실시간-ai-관제-시스템) | Spring Boot · FastAPI · YOLOv5 · Jetson Nano · Ollama | **PL(팀장)** · 설계 총괄 · 엣지 AI 단독 |
+| **실무 — 커머스** | [SEKMALL](#-sekmall--b2b-쇼핑몰-구축) (B2B) / [더푸짐](#-더푸짐--b2c-쇼핑몰-구축) (B2C) | PHP · MySQL · 이카운트 ERP · 카카오 알림톡 | 메인 단독 |
+| **실무 — 교육** | [스펙트럼KU](#-스펙트럼ku--교육-플랫폼--국내외-결제) / [명지전문대 KBO 야구심판](#-명지전문대-kbo-야구심판-양성과정--교육-플랫폼) | PHP · 이니시스 · PayPal | 메인 |
+| **실무 — 대규모 회원** | [한국심리학회](#-한국심리학회--회원--회비--결제-시스템) (회원 5~6만) | PHP · MySQL · 결제 API | 서브 |
+| **실무 — 외부 연동** | [티케이엘리베이터 IGAD](#-티케이엘리베이터코리아-igad--soap-기반-cad-연동) | PHP 8.3 · SOAP | 담당 |
+| **운영** | [유지보수 150여 개사 / 300여 개 도메인](#-유지보수-담당-사이트) | Linux · Apache · PHP 5.x~8.3 | 담당 |
+
+> ⚠️ 실무 프로젝트는 **고객사 자산이라 소스를 공개할 수 없어**, 담당 업무와 설계 의도 중심으로 정리했습니다.
+> 소스가 공개된 프로젝트는 아래 **AI 팀 프로젝트** 섹션의 저장소 링크를 참고해 주세요.
 
 ---
 
 ## 🛠️ 기술 스택
 
-### 실무 경험 (3년)
+### 현재 주력 — Backend + AI
+
+| 구분 | 내용 |
+|---|---|
+| **Backend** | Java, Spring Boot, Spring Data JPA, Spring Security, Oracle, FastAPI |
+| **Frontend** | React, TypeScript, Vite |
+| **AI / LLM** | Python, OpenAI API, LangChain, Ollama, Hugging Face, Prompt Engineering |
+| **Vision / Edge AI** | PyTorch, YOLOv5, ByteTrack, OpenCV, NVIDIA Jetson Nano |
+| **모델 운영** | H200 GPU 서버에 모델 직접 설치 · 설정 후 Ollama / Hugging Face 기반 서빙 (Gemma) |
+| **DevOps** | Docker, GitHub Actions (CI/CD), 가비아 g클라우드 (VPC · 서버 · 스토리지) |
+| **설계 · 리딩** | 요구사항 정의, ERD 설계, 도메인 분리, 팀 역할 분담, Agile 기반 일정 관리 |
+
+### 실무 기반 — 웹 서비스 개발 · 운영 3년
 
 | 구분 | 내용 |
 |---|---|
@@ -27,18 +51,6 @@
 | **결제** | 이니시스, 토스페이, PayPal |
 | **ERP** | 이카운트 ERP, SAP ERP |
 | **인증 / 알림 / 통계** | 네이버 · 카카오 로그인, 카카오 알림톡, SMS, Google Analytics Data API |
-
-### 교육 과정 · 팀 프로젝트 경험
-
-| 구분 | 내용 |
-|---|---|
-| **Backend** | Java, Spring Boot, Spring Data JPA, Spring Security, Oracle, FastAPI |
-| **Frontend** | React, TypeScript, Vite |
-| **DevOps** | Docker, GitHub Actions (CI/CD), 가비아 g클라우드 (VPC · 서버 · 스토리지) |
-| **AI / LLM** | Python, OpenAI API, LangChain, Ollama, Prompt Engineering |
-| **Vision / Edge AI** | PyTorch, YOLOv5, ByteTrack, OpenCV, NVIDIA Jetson Nano |
-| **모델 운영** | H200 GPU 서버에 모델 직접 설치 · 설정 후 Ollama / Hugging Face 기반 서빙 (Gemma) |
-| **설계 · 리딩** | 요구사항 정의, ERD 설계, 도메인 분리, 팀 역할 분담, Agile 기반 일정 관리 |
 
 ---
 
@@ -153,12 +165,13 @@ YOLOv5로도 목표 정확도를 충분히 확보할 수 있다고 판단해 채
 
 ---
 
-## 💼 실무 대표 프로젝트 (피아트SID, 2022.08 ~ 2025.07)
+## 💼 실무 프로젝트 (피아트SID, 2022.08 ~ 2025.07)
 
-웹에이전시로, **고객사 웹 서비스 신규 구축 20여 건**과 **누적 150여 개 사이트 유지보수**를 병행했습니다.
+웹에이전시에서 **고객사 웹 서비스 신규 구축 20여 건**과 **누적 150여 개 사이트 유지보수**를 병행했습니다.
+아래는 대표 6건이며, 대부분 **현재까지 실제 서비스로 운영 중인 사이트**입니다.
 
 ### 🛒 SEKMALL — B2B 쇼핑몰 구축
-**[sekmall.com](https://sekmall.com) ・ 메인 담당(단독)**
+**[sekmall.com](https://sekmall.com) ・ 메인 담당(단독) ・ 상용 서비스**
 
 - 관리자(DBMS) 페이지 · 사용자 페이지 전반 개발
 - 상품 관리, 거래처별 할인 구간, 쿠폰, 게시판 구현
@@ -181,7 +194,7 @@ YOLOv5로도 목표 정확도를 충분히 확보할 수 있다고 판단해 채
 ---
 
 ### 🧠 한국심리학회 — 회원 · 회비 · 결제 시스템
-**[koreanpsychology.or.kr](https://koreanpsychology.or.kr) ・ 서브 담당**
+**[koreanpsychology.or.kr](https://koreanpsychology.or.kr) ・ 서브 담당 ・ 상용 서비스**
 
 - 모학회 + 분과학회 통합 **회원 5~6만 명** 규모
 - 회원 등급 체계, 연회비 · 가입비 정산, 결제 시스템 개발
@@ -193,7 +206,7 @@ YOLOv5로도 목표 정확도를 충분히 확보할 수 있다고 판단해 채
 ---
 
 ### ⚾ 명지전문대 KBO 야구심판 양성과정 — 교육 플랫폼
-**[baseball.mjc.ac.kr](https://baseball.mjc.ac.kr) ・ 메인 담당**
+**[baseball.mjc.ac.kr](https://baseball.mjc.ac.kr) ・ 메인 담당 ・ 상용 서비스**
 
 - 수강생 회원 가입 및 관리
 - 교육 과정 개설 · 신청 기능, 기수 · 정원 관리
@@ -204,7 +217,7 @@ YOLOv5로도 목표 정확도를 충분히 확보할 수 있다고 판단해 채
 ---
 
 ### 🎓 스펙트럼KU — 교육 플랫폼 + 국내외 결제
-**[spectrumku.com](https://spectrumku.com) ・ 메인 담당**
+**[spectrumku.com](https://spectrumku.com) ・ 메인 담당 ・ 상용 서비스**
 
 - 회원 관리, 강의 개설 및 수강 신청 기능 개발
 - **이니시스 + PayPal API 연동 구축** (국내 / 해외 결제 이원화)
@@ -379,7 +392,7 @@ SAMKOO Vina,samkoo.fiart.kr
 (주)유엔터스,uenters.com
 (사)국제경영원,newhrd.fiart.kr
 금강인프라건설(주),kgcon.kr
-(주)한국이엔아이인터네셔널,messeworld.co.kr
+(주)한국이엔아이인터네셔날,messeworld.co.kr
 경희대학교 AI 비즈니스MBA,smartlab.khu.ac.kr
 (주)하이큐시스템,hiqsys.co.kr
 강북구청(생활지리정보),wgis.gangbuk.seoul.kr
@@ -410,7 +423,7 @@ SAMKOO Vina,samkoo.fiart.kr
 아남전자(주),aname.co.kr
 아남전자(주),anamglobal.com
 (주)케이티엘솔루션,kt-service.co.kr
-(주)포유,familie-gangdong.co.kr
+(주)포유,famille-gangdong.co.kr
 동광리어유한회사,dklear.com
 현대코스모㈜ 서울지점,hyundaicosmo.com
 (주)고우넷,itsm.gownet.com
@@ -515,7 +528,6 @@ SAMKOO Vina,samkoo.fiart.kr
 경희대학교 경영대학원,asp.khu.ac.kr
 올웨이즈앤애프앤비(주),drstuartshop.co.kr
 해피텔레콤,hms.happy-tel.com
-(주)포유,familie-terraza.com
 한국화학소재기술연구조합,chemtra.or.kr
 (사)국제경영원,m.newhrd.com
 리코이엔씨주식회사,reeco.co.kr
@@ -553,7 +565,6 @@ SAMKOO Vina,samkoo.fiart.kr
 경희대학교 경영대학원,khmba.khu.ac.kr
 현대오일뱅크 엑스티어,
 (사)국제경영원,newhrd.com
-대신산업,
 경희대학교 국제대학원,gsp.khu.ac.kr
 (재)한국지식재산관리재단,kipf.or.kr
 이웃사랑임대사랑 사회적협동조합,이웃사랑임대사랑.kr
