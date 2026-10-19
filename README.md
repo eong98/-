@@ -15,7 +15,7 @@
 
 | 구분 | 프로젝트 | 핵심 기술 | 역할 |
 |---|---|---|---|
-| **AI 팀 프로젝트** | [알리미오](#-ai-팀-프로젝트--알리미오allimio--무인매장-cctv-실시간-ai-관제-시스템) — 무인매장 CCTV 실시간 AI 관제 | Spring Boot · FastAPI · YOLOv5 · Jetson · LangGraph · RAG | **PL(팀장)** · 설계 총괄 · 엣지 AI 단독 |
+| **AI 팀 프로젝트** | [알리미오](#-ai-팀-프로젝트--알리미오allimio--무인매장-cctv-실시간-ai-관제-시스템) — 무인매장 CCTV 실시간 AI 관제 | Spring Boot · FastAPI · YOLOv5 · Jetson · LangGraph · RAG · Kubernetes | **PL(팀장)** · 설계 총괄 · 엣지 AI 단독 |
 | **운영 중인 개인 서비스** | [유형숲](#-운영-중인-개인-서비스--유형숲-foresttypecokr) — 유형 · 궁합 · 퀴즈 테스트 플랫폼 | Spring Boot 3.5 · React 19 · Oracle · Nginx · Docker · GitHub Actions | **1인 기획 · 개발 · 배포 · 운영** |
 | **개인 프로젝트** | [CLIMB:ON](#-개인-프로젝트--climbon--클라이밍-암장-검색--커뮤니티--스토어) — 클라이밍 암장 검색 · 커뮤니티 · 스토어 | Spring Boot · React · FastAPI · LangChain · JWT · 토스페이먼츠 | 1인 개발 (3-티어 전체) |
 | **실무 — 커머스** | [SEKMALL](#-sekmall--b2b-쇼핑몰-구축) (B2B) / [더푸짐](#-더푸짐--b2c-쇼핑몰-구축) (B2C) | PHP · MySQL · 이카운트 ERP · 카카오 알림톡 | 메인 단독 |
@@ -40,7 +40,7 @@
 | **AI / LLM** | Python, OpenAI API, Ollama, LangChain, LangGraph, RAG(ChromaDB), Prompt Engineering |
 | **Vision / Edge AI** | YOLOv5, OpenCV, PyTorch, NVIDIA Jetson Nano, 객체 추적기 직접 구현 |
 | **모델 운영** | H200 GPU 서버에 모델 직접 설치 · 설정 후 서빙, LLM 제공자 전환 구조(Ollama ↔ OpenAI) |
-| **DevOps** | Docker Compose, Nginx(HTTPS), GitHub Actions(CI/CD), 가비아 클라우드(VPC · 서버 · 스토리지) |
+| **DevOps** | Docker, Docker Compose, Kubernetes(minikube), GitHub Actions(CI/CD), GHCR, Nginx(HTTPS), 가비아 클라우드(VPC · 서버 · 스토리지) |
 | **설계 · 리딩** | 요구사항 정의, ERD 설계, 도메인 분리, 팀 역할 분담, Agile 기반 일정 관리 |
 
 ### 실무 기반 — 웹 서비스 개발 · 운영 3년
@@ -105,7 +105,7 @@
 
 - 도메인별로 **기능 · 담당 테이블 · 페이지 범위를 문서로 확정**한 뒤 분담하여, 업무 경계에서 생기는 누락을 사전에 차단
 - 팀원들이 처음 다루는 **Spring Boot · JPA 연관관계 매핑, REST API 설계, Git 브랜치 전략** 등에 대해 수시로 기술 지원 진행
-- Agile 기반으로 일정을 관리하고 통합과 배포까지 담당
+- Agile 기반으로 일정을 관리하고, 통합과 Kubernetes 배포 자동화까지 담당
 
 ---
 
@@ -148,6 +148,28 @@ YOLOv5로도 목표 정확도를 충분히 확보할 수 있다고 판단해 채
 같은 이유로 추적기도 외부 라이브러리 대신 **IOU 매칭 + 속도 예측 + 짧은 미탐지 허용** 만 갖춘 가벼운 추적기를 직접 작성했습니다.
 무인 매장은 동시에 화면에 잡히는 사람 수가 적어, 무거운 추적 알고리즘보다 Jetson에서 프레임을 놓치지 않는 쪽이 판정 정확도에 더 중요했습니다.
 
+### 🚀 배포 자동화 — Docker + Kubernetes(minikube) + GitHub Actions (직접 구성)
+
+프론트와 백엔드를 컨테이너로 만들어 서버의 Kubernetes(minikube)에 올리고, `main` 에 push하면 배포까지 자동으로 진행되도록 구성했습니다.
+
+```
+git push(main) ──▶ GitHub Actions
+                     ① Docker 이미지 빌드 (Spring: Gradle bootWar / React: Vite build)
+                     ② GHCR에 업로드 (태그 = 커밋 SHA)
+                     ③ SSH 접속 → kubectl apply → 롤아웃 확인, 실패 시 이전 버전으로 자동 되돌림
+                     ▼
+서버  Nginx ──▶ minikube (namespace allimio)
+                  ├─ allimio-web : Nginx + React 빌드 결과
+                  └─ allimio-api : Spring Boot
+```
+
+- **이미지 태그를 커밋 SHA로** — 어떤 커밋이 떠 있는지 바로 확인할 수 있고, 문제 시 특정 버전으로 되돌리기 쉽도록 구성
+- **실패하면 자동 롤백** — 새 Pod가 5분 안에 정상 기동하지 않으면 `rollout undo` 로 이전 버전 복구 후 배포를 실패 처리
+- **헬스 체크** — Spring 기동 시간을 기다리는 `startupProbe`, 포트가 열린 뒤에만 트래픽을 보내는 `readinessProbe`, 응답이 없으면 재시작하는 `livenessProbe` 설정
+- **자원 설정** — CPU · 메모리 요청/제한을 두고, JVM 힙을 컨테이너 메모리 제한 기준으로 잡아 OOM 재시작 위험을 낮춤
+- **업로드 파일 유지** — 컨테이너가 바뀌어도 첨부 파일이 남도록 서버 폴더를 노드에 상시 마운트(systemd)
+- 같은 서버에서 운영 중인 다른 서비스(유형숲)의 Nginx 설정은 건드리지 않고 포트를 분리해 공존
+
 ### 🛠️ 직접 구현한 부분
 
 **엣지 AI (단독 개발)**
@@ -155,6 +177,9 @@ YOLOv5로도 목표 정확도를 충분히 확보할 수 있다고 판단해 채
 - **NVIDIA Jetson Nano** 환경 세팅, OpenCV 기반 영상 처리
 - 폭행 · 쓰러짐 · 무단침입 · 장시간체류는 추적 결과 기반 규칙으로, 기물파손 · 화재는 장면 기반 규칙으로 판정
 - 방문객 입장/퇴장 집계, 감지 결과를 AI 서버 API로 전송
+
+**배포**
+- 위 배포 자동화 전체 구성 — Dockerfile, Kubernetes 매니페스트, GitHub Actions 워크플로, 배포 가이드 문서 작성
 
 **AI 서버 · 모델 서빙**
 - **H200 GPU 서버**에 모델을 직접 설치 · 설정하고 서빙 환경 구성
@@ -169,7 +194,8 @@ YOLOv5로도 목표 정확도를 충분히 확보할 수 있다고 판단해 채
 
 ### 기술 스택
 `Spring Boot` `Spring Data JPA` `Oracle` `JWT` `Redis` `React 19` `TypeScript` `Vite` `Zustand` `FastAPI` `Python`
-`YOLOv5` `OpenCV` `PyTorch` `Jetson Nano` `Ollama` `LangChain` `LangGraph` `ChromaDB` `WebSocket` `Docker`
+`YOLOv5` `OpenCV` `PyTorch` `Jetson Nano` `Ollama` `LangChain` `LangGraph` `ChromaDB` `WebSocket`
+`Docker` `Kubernetes(minikube)` `GitHub Actions` `GHCR`
 
 ---
 
@@ -392,7 +418,6 @@ React ──REST/JWT──▶ Spring Boot ──JDBC──▶ Oracle (테이블 
 | 2026.09 | 정보처리산업기사 | 한국산업인력공단 |
 | 2026.09 | SQL 개발자 (SQLD) | 한국데이터산업진흥원 |
 | 2022.03 | 웹디자인개발기능사 | 한국산업인력공단 |
-| 2019.09 | GTQ 포토샵 1급 (국가공인) | 한국생산성본부 |
 | 2016.09 | 전자기능사 | 한국산업인력공단 |
 
 **학력** — 학점은행제 정보처리학과 재학 중 (2026.08 ~) · 서울전자고등학교 전자과 졸업
